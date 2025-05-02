@@ -6,6 +6,10 @@ package com.tjvg4m34r13.library;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.TimerTask;
 
 /**
  *
@@ -16,15 +20,17 @@ public class MainForm extends javax.swing.JFrame {
     /**
      * Creates new form MainForm
      */
-    public MainForm() {
+    public MainForm() throws IOException {
         initComponents();
     }
 
-    public void createPopUp(String text,Component parent){
+    public void createPopUp(String text, JFrame parent){
         JPanel inputPanel = new JPanel();
         inputPanel.add(new JLabel(text));
-
-        int result = JOptionPane.showConfirmDialog(parent, inputPanel,"", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE);
+        int x = parent.getLocation().x;
+        int y = parent.getLocation().y;
+        inputPanel.setLocation(x,y);
+        int result = JOptionPane.showConfirmDialog(inputPanel, inputPanel,"", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE);
         if (result == JOptionPane.OK_OPTION) {
             inputPanel.setVisible(false);
         }
@@ -39,21 +45,57 @@ public class MainForm extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents() throws IOException {
 
         sendButton = new javax.swing.JButton();
-        closeButton = new javax.swing.JButton();
         searchField = new javax.swing.JTextField();
+        statusPanel = new javax.swing.JPanel();
+        statusColor = new javax.swing.JPanel();
+        statusLabel = new javax.swing.JLabel();
+        closeButton = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        autorItem = new javax.swing.JMenuItem();
-        EditoraItem = new javax.swing.JMenuItem();
-        LivroItem = new javax.swing.JMenuItem();
+        AuthorItem = new javax.swing.JMenuItem();
+        PublisherItem = new javax.swing.JMenuItem();
+        BookItem = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         sendButton.setText("Send");
+
+        searchField.setText("Search");
+
+        statusPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        statusColor.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        statusColor.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        statusColor.setPreferredSize(new java.awt.Dimension(15, 15));
+        Timer timer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    Status(statusColor);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
+        timer.start();
+
+
+        javax.swing.GroupLayout statusColorLayout = new javax.swing.GroupLayout(statusColor);
+        statusColor.setLayout(statusColorLayout);
+        statusColorLayout.setHorizontalGroup(
+            statusColorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 14, Short.MAX_VALUE)
+        );
+        statusColorLayout.setVerticalGroup(
+            statusColorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 14, Short.MAX_VALUE)
+        );
+
+        statusLabel.setText("Server Status");
 
         closeButton.setText("Close");
         closeButton.addActionListener(new java.awt.event.ActionListener() {
@@ -62,40 +104,70 @@ public class MainForm extends javax.swing.JFrame {
             }
         });
 
-        searchField.setText("Search");
+        javax.swing.GroupLayout statusPanelLayout = new javax.swing.GroupLayout(statusPanel);
+        statusPanel.setLayout(statusPanelLayout);
+        statusPanelLayout.setHorizontalGroup(
+            statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(statusPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(statusLabel)
+                .addGap(9, 9, 9)
+                .addComponent(statusColor, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(closeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        statusPanelLayout.setVerticalGroup(
+            statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(statusPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, statusPanelLayout.createSequentialGroup()
+                        .addComponent(statusLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(4, 4, 4))
+                    .addGroup(statusPanelLayout.createSequentialGroup()
+                        .addComponent(closeButton)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, statusPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(statusColor, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(8, 8, 8))
+        );
 
-        jMenu1.setText("Cadastrar");
+        jMenuBar1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
 
-        autorItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.SHIFT_DOWN_MASK));
-        autorItem.setText("Autor");
-        autorItem.addActionListener(new java.awt.event.ActionListener() {
+        jMenu1.setText("Register");
+
+        AuthorItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.SHIFT_DOWN_MASK));
+        AuthorItem.setText("Author");
+        AuthorItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                autorItemActionPerformed(evt);
+                AuthorItemActionPerformed(evt);
             }
         });
-        jMenu1.add(autorItem);
+        jMenu1.add(AuthorItem);
 
-        EditoraItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.SHIFT_DOWN_MASK));
-        EditoraItem.setText("Editora");
-        EditoraItem.addActionListener(new java.awt.event.ActionListener() {
+        PublisherItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.SHIFT_DOWN_MASK));
+        PublisherItem.setText("Publisher");
+        PublisherItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                EditoraItemActionPerformed(evt);
+                PublisherItemActionPerformed(evt);
             }
         });
-        jMenu1.add(EditoraItem);
+        jMenu1.add(PublisherItem);
 
-        LivroItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.SHIFT_DOWN_MASK));
-        LivroItem.setText("Livro");
-        LivroItem.addActionListener(new java.awt.event.ActionListener() {
+        BookItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.SHIFT_DOWN_MASK));
+        BookItem.setText("Book");
+        BookItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                LivroItemActionPerformed(evt);
+                BookItemActionPerformed(evt);
             }
         });
-        jMenu1.add(LivroItem);
+        jMenu1.add(BookItem);
 
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Editar Cadastros");
+        jMenu2.setText("Edit Registers");
         jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
@@ -106,15 +178,11 @@ public class MainForm extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(243, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(closeButton)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(sendButton)
-                        .addGap(19, 19, 19))))
+                .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(sendButton)
+                .addGap(19, 19, 19))
+            .addComponent(statusPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -123,33 +191,45 @@ public class MainForm extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(sendButton)
                     .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 403, Short.MAX_VALUE)
-                .addComponent(closeButton)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 394, Short.MAX_VALUE)
+                .addComponent(statusPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
 
-    private void autorItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autorItemActionPerformed
+    private void AuthorItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AuthorItemActionPerformed
         AuthorForm authorForm = new AuthorForm(this);
-        authorForm.authorForm = authorForm;
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
                 authorForm.setVisible(true);
             }
         });
-    }//GEN-LAST:event_autorItemActionPerformed
+    }//GEN-LAST:event_AuthorItemActionPerformed
 
-    private void EditoraItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditoraItemActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_EditoraItemActionPerformed
+    private void PublisherItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PublisherItemActionPerformed
+        PublisherForm publisherForm = new PublisherForm(this);
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run(){ publisherForm.setVisible(true); }
+        });
+    }//GEN-LAST:event_PublisherItemActionPerformed
 
-    private void LivroItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LivroItemActionPerformed
+    private void Status(JPanel self) throws IOException {
+        Connection connection = new Connection("status");
+        if(connection.success == true){
+            self.setBackground(Color.green);
+        } else {
+            self.setBackground(Color.red);
+        }
+    }
+
+
+    private void BookItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BookItemActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_LivroItemActionPerformed
+    }//GEN-LAST:event_BookItemActionPerformed
     @Override
     public void dispose() {
         super.dispose();
@@ -158,6 +238,7 @@ public class MainForm extends javax.swing.JFrame {
     private void closeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeButtonActionPerformed
         this.dispose();
     }//GEN-LAST:event_closeButtonActionPerformed
+
 
     /**
      * @param args the command line arguments
@@ -189,20 +270,27 @@ public class MainForm extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MainForm().setVisible(true);
+                try {
+                    new MainForm().setVisible(true);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem EditoraItem;
-    private javax.swing.JMenuItem LivroItem;
-    private javax.swing.JMenuItem autorItem;
+    private javax.swing.JMenuItem AuthorItem;
+    private javax.swing.JMenuItem BookItem;
+    private javax.swing.JMenuItem PublisherItem;
     private javax.swing.JButton closeButton;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JTextField searchField;
     private javax.swing.JButton sendButton;
+    private javax.swing.JPanel statusColor;
+    private javax.swing.JLabel statusLabel;
+    private javax.swing.JPanel statusPanel;
     // End of variables declaration//GEN-END:variables
 }

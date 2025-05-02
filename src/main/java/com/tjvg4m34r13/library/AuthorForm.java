@@ -5,6 +5,7 @@
 package com.tjvg4m34r13.library;
 
 import javax.swing.*;
+import java.io.IOException;
 
 /**
  *
@@ -16,7 +17,6 @@ public class AuthorForm extends javax.swing.JFrame {
      * Creates new form AutorForm
      */
     private MainForm mainForm;
-    public AuthorForm authorForm;
     public AuthorForm(MainForm mainForm) {
         this.mainForm = mainForm;
         initComponents();
@@ -25,7 +25,6 @@ public class AuthorForm extends javax.swing.JFrame {
 
 
     public void dispose() {
-        System.out.println("Closed");
         super.dispose();
     }
     /**
@@ -41,10 +40,15 @@ public class AuthorForm extends javax.swing.JFrame {
         birthdayLabel = new javax.swing.JLabel();
         countryLabel = new javax.swing.JLabel();
         nameField = new javax.swing.JTextField();
-        birthdayField = new javax.swing.JTextField();
         countryField = new javax.swing.JTextField();
-        sendButton = new javax.swing.JButton();
+        registerButton = new javax.swing.JButton();
         closeButton = new javax.swing.JButton();
+        desc = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        descText = new javax.swing.JTextArea();
+        birthdayField = new javax.swing.JFormattedTextField();
+        jLabel1 = new javax.swing.JLabel();
+        document = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Cadastro Autor");
@@ -56,10 +60,18 @@ public class AuthorForm extends javax.swing.JFrame {
 
         countryLabel.setText("Country of birth");
 
-        sendButton.setText("Send");
-        sendButton.addActionListener(new java.awt.event.ActionListener() {
+        nameField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+
+        countryField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+
+        registerButton.setText("Register");
+        registerButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sendButtonActionPerformed(evt);
+                try {
+                    registerButtonActionPerformed(evt);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -70,18 +82,61 @@ public class AuthorForm extends javax.swing.JFrame {
             }
         });
 
+        desc.setText("Description about the author");
+
+        descText.setColumns(20);
+        descText.setRows(5);
+        descText.setTabSize(4);
+        descText.setToolTipText("Description text...");
+        descText.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        jScrollPane1.setViewportView(descText);
+
+        birthdayField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        try {
+            birthdayField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        birthdayField.setText("          /  /    ");
+        birthdayField.setToolTipText("dd/mm/yyyy");
+        birthdayField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                birthdayFieldActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Document");
+
+        document.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        try {
+            document.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        document.setToolTipText("123.456.789-00");
+        document.setMargin(new java.awt.Insets(2, 10, 2, 6));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(25, 25, 25)
+                .addGap(17, 17, 17)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(birthdayLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(birthdayField, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 284, Short.MAX_VALUE))
+                        .addComponent(desc)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane1)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(closeButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(registerButton)))
+                        .addGap(24, 24, 24))))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(layout.createSequentialGroup()
@@ -92,13 +147,18 @@ public class AuthorForm extends javax.swing.JFrame {
                                 .addComponent(nameLabel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(nameField, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addComponent(closeButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(sendButton)
-                .addGap(24, 24, 24))
+                        .addContainerGap(370, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(document, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(birthdayLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(birthdayField, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -107,17 +167,25 @@ public class AuthorForm extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(nameLabel)
                     .addComponent(nameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(birthdayLabel)
                     .addComponent(birthdayField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(25, 25, 25)
+                .addGap(12, 12, 12)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(countryLabel)
                     .addComponent(countryField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 264, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(sendButton)
+                    .addComponent(jLabel1)
+                    .addComponent(document, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(40, 40, 40)
+                .addComponent(desc)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(registerButton)
                     .addComponent(closeButton))
                 .addGap(22, 22, 22))
         );
@@ -129,10 +197,14 @@ public class AuthorForm extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_closeButtonActionPerformed
 
-    private void sendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendButtonActionPerformed
-        Author author = new Author(nameField.getText(),birthdayField.getText(), countryField.getText(), this.authorForm, this.mainForm);
+    private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) throws IOException {//GEN-FIRST:event_sendButtonActionPerformed
+        Author author = new Author(nameField.getText(),birthdayField.getText(), countryField.getText(), descText.getText(),document.getText(), this, this.mainForm);
         author.Register();
     }//GEN-LAST:event_sendButtonActionPerformed
+
+    private void birthdayFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_birthdayFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_birthdayFieldActionPerformed
 
     /**
      * @param args the command line arguments
@@ -163,13 +235,18 @@ public class AuthorForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField birthdayField;
+    private javax.swing.JFormattedTextField birthdayField;
     private javax.swing.JLabel birthdayLabel;
     private javax.swing.JButton closeButton;
     private javax.swing.JTextField countryField;
     private javax.swing.JLabel countryLabel;
+    private javax.swing.JLabel desc;
+    private javax.swing.JTextArea descText;
+    private javax.swing.JFormattedTextField document;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField nameField;
     private javax.swing.JLabel nameLabel;
-    private javax.swing.JButton sendButton;
+    private javax.swing.JButton registerButton;
     // End of variables declaration//GEN-END:variables
 }
